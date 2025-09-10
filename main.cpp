@@ -4,13 +4,26 @@
 #include <sstream>
 #include <cmath>
 
+/**
+ * @brief Checks if string is number
+ *
+ * Checks the input string against the first match of a group of number and point
+ *
+ * @param x Input string
+ * @return True if it's a number or false if it isn't
+ */
 bool isNumber(std::string x)
 {
     std::smatch match;
-    std::regex_search(x, match, std::regex("[0-9.]+"));
-    return x == match[0];
+    std::regex_search(x, match, std::regex("[0-9]+\\.[0-9]+"));
+    std::smatch match2;
+    std::regex_search(x, match2, std::regex("[0-9]+"));
+    return x == match[0] || x == match2[0];
 }
 
+/**
+ * @brief Clears terminal screen
+ */
 void clear_screen()
 {
     std::cout << "\x1B[2J\x1B[H";
