@@ -41,10 +41,7 @@ private:
   double total_project_5;
   double grade_project_5;
 
-  double get_percent_grade(double grade, double total)
-  {
-    return grade / total;
-  }
+  double results[7]{};
 
   void ask_grade(std::string question, double *grade, int index)
   {
@@ -113,10 +110,53 @@ private:
     return s.str();
   }
 
+  double *calculate_grades()
+  {
+    double final_exam = (grade_final / total_final) * 100;
+
+    results[0] = final_exam;
+    results[1] = std::max((grade_midterm / grade_final) * 100, final_exam);
+    results[2] = std::max((grade_project_1 / total_project_1) * 100, final_exam);
+    results[3] = std::max((grade_project_2 / total_project_2) * 100, final_exam);
+    results[4] = std::max((grade_project_3 / total_project_3) * 100, final_exam);
+    results[5] = std::max((grade_project_4 / total_project_4) * 100, final_exam);
+    results[6] = std::max((grade_project_5 / total_project_5) * 100, final_exam);
+  }
+
+  double calculate_exams()
+  {
+    if (results[0] >= results[1])
+    {
+      return results[0];
+    }
+    return results[0] * 0.75 + results[1] * 0.25;
+  }
+
+  double calculate_projects()
+  {
+    return (results[2] + results[3] + results[4] + results[5] + results[6]) / 5;
+  }
+
   void print_progress(int index)
   {
     std::cout << "Grades:" << std::endl;
     std::cout << get_messages(index) << std::endl;
+  }
+
+  double get_final_grade()
+  {
+    calculate_grades();
+
+    double exams = calculate_exams();
+    double projects = calculate_projects();
+
+    if (exams <= 40)
+      return std::round(exams);
+
+    if (exams >= 60)
+      return std::round((2 / 3) * exams + (1 / 3) * projects);
+
+    return std::round(projects * ((1 / 3) * ((exams - 40) / 20)) + exams * (1 - ((1 / 3) * ((exams - 40) / 20))));
   }
 
 public:
@@ -139,6 +179,21 @@ public:
     ask_grade("What is your grade for the Project 5?", &grade_project_5, total_project_5, 13);
   }
 
+  void print_final_grade()
+  {
+    std::string msg[7] = {"Final", "Midterm", "Project 1", "Project 2", "Project 3", "Project 4", "Project 5"};
+
+    clear_screen();
+    std::cout << "Here are your grades:\n"
+              << std::endl;
+    for (int i = 0; i < (sizeof(msg) / sizeof(*msg)); i++)
+    {
+      std::cout << msg[i] << ": " << results[i] << std::endl;
+    }
+
+    std::cout << "Here's your final grade: " << (int)get_final_grade();
+  }
+
   std::string to_string()
   {
     std::stringstream s;
@@ -147,10 +202,5 @@ public:
     s << "}";
 
     return s.str();
-  }
-
-  double calculate_exams()
-  {
-    return 0;
   }
 };
