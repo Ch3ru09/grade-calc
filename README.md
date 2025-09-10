@@ -4,9 +4,9 @@ This is a grade calculator for the course ece150 made in C++
 
 ## How to run
 
-Use your default c++ compiler to compile (of course).
+Use your default c++ compiler to compile.
 
-For me , it's clang so here
+For me, it's clang so
 
 ```bash
 clang++ ./main.cpp -o main
