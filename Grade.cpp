@@ -41,7 +41,7 @@ private:
   double total_project_5;
   double grade_project_5;
 
-  double results[7]{};
+  double results[7];
 
   void ask_grade(std::string question, double *grade, int index)
   {
@@ -70,7 +70,7 @@ private:
     std::cout << question << std::endl;
     std::cin >> temp;
 
-    while (temp == "" || !isNumber(temp) || std::stod(temp) <= 0 || std::stod(temp) > max)
+    while (temp == "" || !isNumber(temp) || std::stod(temp) < 0 || std::stod(temp) > max)
     {
       clear_screen();
       print_progress(index);
@@ -89,16 +89,16 @@ private:
         "Midterm Exam Max: " + std::to_string((int)total_midterm),
         "Midterm Exam Grade: " + std::to_string((int)grade_midterm),
 
-        "Project 1 Exam Max: " + std::to_string((int)total_project_1),
-        "Project 1 Exam Grade: " + std::to_string((int)grade_project_1),
-        "Project 2 Exam Max: " + std::to_string((int)total_project_2),
-        "Project 2 Exam Grade: " + std::to_string((int)grade_project_2),
-        "Project 3 Exam Max: " + std::to_string((int)total_project_3),
-        "Project 3 Exam Grade: " + std::to_string((int)grade_project_3),
-        "Project 4 Exam Max: " + std::to_string((int)total_project_4),
-        "Project 4 Exam Grade: " + std::to_string((int)grade_project_4),
-        "Project 5 Exam Max: " + std::to_string((int)total_project_5),
-        "Project 5 Exam Grade: " + std::to_string((int)grade_project_5),
+        "Project 1 Max: " + std::to_string((int)total_project_1),
+        "Project 1 Grade: " + std::to_string((int)grade_project_1),
+        "Project 2 Max: " + std::to_string((int)total_project_2),
+        "Project 2 Grade: " + std::to_string((int)grade_project_2),
+        "Project 3 Max: " + std::to_string((int)total_project_3),
+        "Project 3 Grade: " + std::to_string((int)grade_project_3),
+        "Project 4 Max: " + std::to_string((int)total_project_4),
+        "Project 4 Grade: " + std::to_string((int)grade_project_4),
+        "Project 5 Max: " + std::to_string((int)total_project_5),
+        "Project 5 Grade: " + std::to_string((int)grade_project_5),
     };
 
     std::stringstream s;
@@ -110,12 +110,12 @@ private:
     return s.str();
   }
 
-  double *calculate_grades()
+  void calculate_grades()
   {
     double final_exam = (grade_final / total_final) * 100;
 
     results[0] = final_exam;
-    results[1] = std::max((grade_midterm / grade_final) * 100, final_exam);
+    results[1] = std::max((grade_midterm / total_midterm) * 100, final_exam);
     results[2] = std::max((grade_project_1 / total_project_1) * 100, final_exam);
     results[3] = std::max((grade_project_2 / total_project_2) * 100, final_exam);
     results[4] = std::max((grade_project_3 / total_project_3) * 100, final_exam);
@@ -150,13 +150,17 @@ private:
     double exams = calculate_exams();
     double projects = calculate_projects();
 
-    if (exams <= 40)
+    if (exams <= 40.)
+    {
       return std::round(exams);
+    }
 
-    if (exams >= 60)
-      return std::round((2 / 3) * exams + (1 / 3) * projects);
+    if (exams >= 60.)
+    {
+      return std::round((2. / 3.) * exams + (1. / 3.) * projects);
+    }
 
-    return std::round(projects * ((1 / 3) * ((exams - 40) / 20)) + exams * (1 - ((1 / 3) * ((exams - 40) / 20))));
+    return std::round(projects * ((1. / 3.) * ((exams - 40.) / 20.)) + exams * (1. - ((1. / 3.) * ((exams - 40.) / 20.))));
   }
 
 public:
@@ -181,6 +185,8 @@ public:
 
   void print_final_grade()
   {
+    int final_grade = (int)get_final_grade();
+
     std::string msg[7] = {"Final", "Midterm", "Project 1", "Project 2", "Project 3", "Project 4", "Project 5"};
 
     clear_screen();
@@ -191,7 +197,7 @@ public:
       std::cout << msg[i] << ": " << results[i] << std::endl;
     }
 
-    std::cout << "Here's your final grade: " << (int)get_final_grade();
+    std::cout << "Here's your final grade: " << final_grade << std::endl;
   }
 
   std::string to_string()
