@@ -50,10 +50,28 @@ private:
         std::cout << question << std::endl;
         std::cin >> temp;
 
-        while (temp == "" || !isNumber(temp) || std::stod(temp) <= 0 || std::stod(temp) != std::floor(std::stod(temp)))
+        while (temp == "" || !isNumber(temp) || std::stod(temp) <= 0. || std::stod(temp) > 10000. || std::stod(temp) != std::floor(std::stod(temp)))
         {
             clear_screen();
             print_progress(index);
+
+            if (!isNumber(temp))
+            {
+                std::cout << "Can you input a number please..." << std::endl;
+            }
+            else if (std::stod(temp) <= 0)
+            {
+                std::cout << "You doughnut, grades can't be negative..." << std::endl;
+            }
+            else if (std::stod(temp) > 10000)
+            {
+                std::cout << "You simply cannot convince me that the grade is above 10 000..." << std::endl;
+            }
+            else if (std::stod(temp) != std::floor(std::stod(temp)))
+            {
+                std::cout << "You simply cannot have a fractional total grade..." << std::endl;
+            }
+
             std::cout << "Can you answer something sensical to the question: " << question << std::endl;
             std::cin >> temp;
         };
@@ -66,13 +84,32 @@ private:
         std::string temp;
         clear_screen();
         print_progress(index);
+
         std::cout << question << std::endl;
         std::cin >> temp;
 
-        while (temp == "" || !isNumber(temp) || std::stod(temp) < 0 || std::stod(temp) > max)
+        while (temp == "" || !isNumber(temp) || std::stod(temp) < 0 || std::stod(temp) > 10000 || std::stod(temp) > max)
         {
             clear_screen();
             print_progress(index);
+
+            if (!isNumber(temp))
+            {
+                std::cout << "Can you input a number please..." << std::endl;
+            }
+            else if (std::stod(temp) <= 0)
+            {
+                std::cout << "You doughnut, grades can't be negative..." << std::endl;
+            }
+            else if (std::stod(temp) > 10000)
+            {
+                std::cout << "You simply cannot convince me that the grade is above 10 000..." << std::endl;
+            }
+            else if (std::stod(temp) > max)
+            {
+                std::cout << "Ahh, yes, you're telling me you have " << ((std::stod(temp) / max) * 100) << "%..." << std::endl;
+            }
+
             std::cout << "Can you answer something sensical to the question: " << question << std::endl;
             std::cin >> temp;
         };
