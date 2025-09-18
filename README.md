@@ -33,7 +33,7 @@ After taking the input of the user:
 
 2. Checks if the input is negative and will error because you cannot have a negative grade.
 
-3. Checks if the grade is above 10000, for the sake of the project, I set this hard limit because I don't think it's necessary to consider a grade above 10000 (even 1000 is a little much).
+3. Checks if the grade is above 10000, for the sake of this project, I set this hard limit because I don't think it's necessary to consider a grade above 10000 (even 1000 is a little much).
 
 #### For Max Grade:
 
@@ -43,7 +43,7 @@ After taking the input of the user:
 
 4. Checks if the input is bigger than the Max grade. I know that in some classes, the student is allowed to have more than 100% but for the sake of the project, the cap is 100%.
 
-When all the checks are passed, the velue will be stored in a variable whose pointer was passed to the function.
+When all the checks are passed, the value will be stored in a variable whose pointer was passed to the function.
 
 ### Calculating the grade
 
